@@ -16,8 +16,6 @@ export function addSmurf(smurf){
 
     .then(res=>{
 
-       console.log('add action',res.data)
-
        dispatch({ type: ADD_SMURF_SUCCESS, payload: res.data})
      })
 
@@ -38,7 +36,6 @@ export function fetchRoster (){
 
     axios.get('http://localhost:3333/smurfs')
     .then(res=>{
-	     console.log('fetch action',res.data)
 
        dispatch({ type: FETCH_SMURFS_SUCCESS, payload: res.data})
      })

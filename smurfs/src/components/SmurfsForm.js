@@ -8,7 +8,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,74 +37,79 @@ const useStyles = makeStyles(theme => ({
 
 const SmurfsForm = (props) => {
 
-  const [count, setCount] =useState(0)
+  const [count, setCount] =useState(0);
 
   useEffect(()=>{
-    props.fetchRoster()
+    props.fetchRoster();
   },[count])
-
-  const [smurfV, setSmurfV] = useState({name:'', age:'', height:''})
 
   const classes = useStyles();
 
-  const handleInputChanges = event => {
-      event.preventDefault()
-      setSmurfV({...smurfV, [event.target.name] : event.target.value, [event.target.age] : event.target.value, [event.target.height] : event.target.value});
-  };
+  const [user, setUser] = useState({});
 
-  const submitForm = (event) => {
-      event.preventDefault();
-      props.addSmurf(smurfV);
-      setCount(count +1)
-}
+     const handleInputChange = event => {
+         setUser({...user, [event.target.name]: event.target.value});
+         console.log(user);
+     }
 
+     const submitForm = event => {
+        event.preventDefault();
+         props.addSmurf(user);
+         setUser({name: "", age: "", height: ""});
+     }
 
-  return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
+     return(
 
-          <form onSubmit={submitForm}>
+   <div className={classes.root}>
 
-              <label htmlFor="SmurfForm" hidden>
-                  Add a Smurf
-              </label>
+      <AppBar position="static">
 
-            <TextField  label="Name"
-                          onChange={handleInputChanges}
-                          name= 'name'
-              />
-            <TextField  label="Age"
-                          onChange={handleInputChanges}
-                          age = 'age'
-              />
-            <TextField  label="Height"
-                          onChange={handleInputChanges}
-                          height = 'height'
-              />
+        <Typography>Add a Smurf:</Typography>
 
-            <Button type="submit" onClick = {submitForm}> + </Button>
+           <Toolbar>
 
+             <form onSubmit={submitForm}>
 
-            </form>
+                <TextField placeholder='Name'
+                   name='name'
+                   value={props.name}
+                   onChange={handleInputChange}/>
 
-        </Toolbar>
-      </AppBar>
+                 <TextField placeholder='Age'
+                   name='age'
+                   value={props.age}
+                   onChange={handleInputChange}/>
 
-      </div>
-  );
-}
-function mapStateToProps(state) {
-  return {
-    smurfs: state.smurfs,
-    isLoading: state.isLoading,
-    error: state.error
-  };
-}
+                 <TextField placeholder='Height'
+                   name='height'
+                   value={props.height}
+                   onChange={handleInputChange}/>
 
-const mapDispatchToProps = {
-  addSmurf,
-  fetchRoster
-}
+                 <Button type='submit' onClick = {submitForm}>Submit</Button>
 
-export default connect(mapStateToProps, mapDispatchToProps)(SmurfsForm);
+               </form>
+
+             </Toolbar>
+
+           </AppBar>
+
+         </div>
+
+    );
+ }
+ 
+ function mapStateToProps(state) {
+   return {
+     smurfs: state.smurfs,
+     isLoading: state.isLoading,
+     error: state.error,
+     user: state.user,
+   };
+ }
+
+ const mapDispatchToProps = {
+   addSmurf,
+   fetchRoster
+ }
+
+ export default connect(mapStateToProps, mapDispatchToProps)(SmurfsForm);

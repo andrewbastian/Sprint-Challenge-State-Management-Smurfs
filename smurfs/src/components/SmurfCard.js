@@ -24,22 +24,28 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SmurfCard({smurf}){
+
   const classes = useStyles();
 
-    console.log('smurf_card props',smurf);
     return(
+
     <Card className={classes.root}>
+
       <CardContent className={classes.card}>
+
         <List>
-        <ListItemText>Name:<br></br>{smurf.name}</ListItemText>
 
-        <ListItemText>Age:<br></br>{smurf.age}</ListItemText>
+          <ListItemText>Name:<br></br>{smurf.name}</ListItemText>
 
-        <ListItemText>Height:<br></br>{smurf.height}</ListItemText>
+          <ListItemText>Age:<br></br>{smurf.age}</ListItemText>
 
-      </List>
-    </CardContent>
+          <ListItemText>Height:<br></br>{smurf.height}</ListItemText>
+
+        </List>
+
+      </CardContent>
+
     </Card>
 
-    );
+  );
 }
