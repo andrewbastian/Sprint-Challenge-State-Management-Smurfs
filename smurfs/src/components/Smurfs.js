@@ -22,7 +22,7 @@ console.log('rosterProps',props.smurfs);
 function mapStateToProps(state) {
   return {
     smurfs: state.smurfs,
-    isFetching: state.isFetching,
+    isLoading: state.isLoading,
     error: state.error
   };
 }

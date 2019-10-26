@@ -19,21 +19,25 @@ const useStyles = makeStyles(theme => ({
   card: {
     width: '50%',
     minWidth: 275,
+    alignText: 'center'
   },
 }));
 
 export default function SmurfCard({smurf}){
   const classes = useStyles();
 
-    console.log('smurf_card props', smurf);
+    console.log('smurf_card props',smurf);
     return(
     <Card className={classes.root}>
-      <CardContent>
+      <CardContent className={classes.card}>
         <List>
-        <ListItemText>Name:{smurf.name}</ListItemText>
-        <ListItemText>Age:{smurf.age}</ListItemText>
-        <ListItemText>Height:{smurf.height}</ListItemText>
-        </List>
+        <ListItemText>Name:<br></br>{smurf.name}</ListItemText>
+
+        <ListItemText>Age:<br></br>{smurf.age}</ListItemText>
+
+        <ListItemText>Height:<br></br>{smurf.height}</ListItemText>
+
+      </List>
     </CardContent>
     </Card>
 
