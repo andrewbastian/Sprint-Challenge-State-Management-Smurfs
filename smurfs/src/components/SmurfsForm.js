@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { addSmurf } from "../actions/index";
+import { fetchRoster, addSmurf } from "../actions/index";
 
 import {makeStyles} from '@material-ui/core';
 import {Button} from '@material-ui/core';
@@ -38,28 +38,29 @@ const useStyles = makeStyles(theme => ({
 
 const SmurfsForm = (props) => {
 
+  const [count, setCount] =useState(0)
+
+  useEffect(()=>{
+    props.fetchRoster()
+  },[count])
+
+  const [smurfV, setSmurfV] = useState({name:'', age:'', height:''})
+
   const classes = useStyles();
 
-  const [smurf, setSmurf] = useState({name:"", age:"", height:""});
-
   const handleInputChanges = event => {
-      event.preventDefault();
-      setSmurf({...smurf,[event.target.name]:event.target.value});
+      event.preventDefault()
+      setSmurfV({...smurfV, [event.target.name] : event.target.value, [event.target.age] : event.target.value, [event.target.height] : event.target.value});
   };
 
   const submitForm = (event) => {
       event.preventDefault();
+      props.addSmurf(smurfV);
+      setCount(count +1)
+}
 
-      props.addSmurf(smurf)
-      setSmurf({
-          name:"",
-          age: "",
-          height:""
-      });
-  };
 
   return (
-
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
@@ -72,15 +73,15 @@ const SmurfsForm = (props) => {
 
             <TextField  label="Name"
                           onChange={handleInputChanges}
-                          value={smurf.name}
+                          name= 'name'
               />
             <TextField  label="Age"
                           onChange={handleInputChanges}
-                          value={smurf.age}
+                          age = 'age'
               />
             <TextField  label="Height"
                           onChange={handleInputChanges}
-                          value={smurf.height}
+                          height = 'height'
               />
 
             <Button type="submit" onClick = {submitForm}> + </Button>
@@ -94,4 +95,17 @@ const SmurfsForm = (props) => {
       </div>
   );
 }
-export default connect(null, {addSmurf})(SmurfsForm)
+function mapStateToProps(state) {
+  return {
+    smurfs: state.smurfs,
+    isLoading: state.isLoading,
+    error: state.error
+  };
+}
+
+const mapDispatchToProps = {
+  addSmurf,
+  fetchRoster
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SmurfsForm);

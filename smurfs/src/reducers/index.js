@@ -32,11 +32,16 @@ export function reducer (state = initialState, action) {
             isLoading: false
           }
           case ADD_SMURF:
-          return{
-            ...state,
-            smurfs: [state.smurfs, action.payload],
-            isLoading:false,
-          }
+          return {
+                ...state,
+
+                    name: action.payload.name,
+                    age: action.payload.age,
+                    height: action.payload.height,
+                    id: Date.now(),
+                    isLoading: false
+
+            };
           case ADD_SMURF_SUCCESS:
           return{
             ...state,
